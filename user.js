@@ -4,6 +4,7 @@ let bcrypt = require('bcrypt')
 require('songbird')
 
 let userSchema = mongoose.Schema({
+  username: String,
   email: String,
   password: String
 })
