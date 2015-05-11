@@ -13,7 +13,7 @@ module.exports = (app) => {
       let user
     if (username.indexOf('@')) {
         let email = username.toLowerCase()
-        user = await User.promise.findOne({email})
+        user = await User.promise.findOne({ email })
       } else {
         let regexp = new RegExp(username, '1')
         //regex for case-insensitive query
@@ -40,19 +40,36 @@ passport.deserializeUser(nodeifyit(async(id) => {
 passport.use('local-signup', new LocalStrategy({
   // Use "email" field instead of "username"
   usernameField: 'email',
-  failureFlash: true
-}, nodeifyit(async(email, password) => {
+  failureFlash: true,
+  passReqToCallBack: true
+}, nodeifyit(async(req, email, password) => {
     email = (email || '').toLowerCase()
       // Is the email taken?
       if (await User.promise.findOne({ email })) {
       return [false, { message: 'That email is already taken.' }]
     }
-
+      let {username, title, description } = req.body
+       
+       let regexp = new RegExp(username, '1')
+       let query = { username: { $regex: regexp } }
+     
+      if(await User.promise.findOne({ username })) {
+      return [false, { message: 'That username is already taken.' }]
+    }
       // create the user
       let user = new User()
       user.email = email
+      user.username = username
+      user.blogTitle = blogTitle
+      user.blogDescription = blogDescription
       // Use a password hash instead of plain-text
       user.password = await user.generateHash(password)
+      try {
       return await user.save()
+    } catch(e) {
+      console.log(util.inspect(e))
+      return [false, { message: e.message }]
+    }
+      return 
   }, { spread: true })))
 }

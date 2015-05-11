@@ -16,6 +16,11 @@ module.exports = (app) => {
     failureRedirect: '/login',
     failureFlash: true
   }))
+  
+  app.get('/signup', (req, res) => {
+    res.render('signup.ejs', {message: req.flash('error')})
+  })
+  
   // process the signup form
   app.post('/signup', passport.authenticate('local-signup', {
     successRedirect: '/profile',
