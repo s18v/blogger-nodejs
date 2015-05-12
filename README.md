@@ -1,12 +1,12 @@
-Blogger
+# Blogger
 
-This is a basic Blogger clone to create a blog with comments.
+<p>This is a basic Blogger clone to create a blog with comments.</p>
 
-Time spent: 5
+<p>Time spent: <code>5</code></p>
 
-Features
+<h4><a class="anchor" id="heading-required" href="#heading-required"><span class="glyphicon glyphicon-link"></span></a>Completed</h4>
 
-Completed
-
- User can Signup, Login and Logout with input validation
- Session and user accounts are persisted in a data store
+<ul>
+<li>User can Signup, Login and Logout with input validation</li>
+<li>Session and user accounts are persisted in a data store </li>
+</ul>
