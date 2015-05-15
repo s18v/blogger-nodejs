@@ -36,7 +36,7 @@ app.use(session({
   saveUninitialized: true
 }))
 
-// Use the passport middleware to enable passport
+// Use passport middleware to enable passport
 app.use(passport.initialize())
 
 // Enable passport persistent sessions
