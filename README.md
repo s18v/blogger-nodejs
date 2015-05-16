@@ -4,7 +4,7 @@
 
 <p>Time spent: <code>5</code></p>
 
-<h4><a class="anchor" id="heading-required" href="#heading-required"><span class="glyphicon glyphicon-link"></span></a>Completed</h4>
+#<h4><a class="anchor" id="heading-required" href="#heading-required"><span class="glyphicon #glyphicon-link"></span></a>Completed</h4>
 
 <ul>
 <li>User can Signup, Login and Logout with input validation</li>
