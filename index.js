@@ -36,11 +36,13 @@ app.use(session({
   saveUninitialized: true
 }))
 
-// Use passport middleware to enable passport
+// Use the passport middleware to enable passport
 app.use(passport.initialize())
 
 // Enable passport persistent sessions
 app.use(passport.session())
+
+// use connect flash
 app.use(flash())
 
 // Configure passport strategies & routes
@@ -48,6 +50,6 @@ passportMiddleware(app)
 routes(app)
 
 // connect to database
-mongoose.connect('mongodb://127.0.0.1:27017/authenticator')
+mongoose.connect('mongodb://127.0.0.1:27017/blogger')
 // start server
 app.listen(PORT, ()=> console.log(`Listening @ http://127.0.0.1:${PORT}`))

@@ -6,9 +6,13 @@ module.exports = (app) => {
   app.get('/', (req, res) => {
     res.render('index.ejs')
   })
-  
+
   app.get('/login', (req, res) => {
     res.render('login.ejs', {message: req.flash('error')})
+  })
+
+  app.get('/signup', (req, res) => {
+    res.render('signup.ejs', {message: req.flash('error')})
   })
 
   app.post('/login', passport.authenticate('local', {
@@ -16,11 +20,6 @@ module.exports = (app) => {
     failureRedirect: '/login',
     failureFlash: true
   }))
-  
-  app.get('/signup', (req, res) => {
-    res.render('signup.ejs', {message: req.flash('error')})
-  })
-  
   // process the signup form
   app.post('/signup', passport.authenticate('local-signup', {
     successRedirect: '/profile',
