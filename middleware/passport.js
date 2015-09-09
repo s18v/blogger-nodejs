@@ -16,19 +16,21 @@ module.exports = (app) => {
     failureFlash: true
   }, nodeifyit(async (username, password) => {
     let user;
-    if (username.indexOf('@')) {
+    if (username.indexOf('@') !== -1) {
       let email = username.toLowerCase()
       user = await User.promise.findOne({email})
+      if (!user || username !== user.email) {
+        return [false, {message: 'Invalid Email'}]
+      }
     } else {
       // 'i' in the regex means ignore case
       let regexp = new RegExp(username, 'i')
       user = await User.promise.findOne({
         username: {$regex: regexp}
       })
-    }
-
-    if (!user || username !== user.username) {
-      return [false, {message: 'Invalid username'}]
+      if (!user || username !== user.username) {
+        return [false, {message: 'Invalid Username'}]
+      }
     }
 
     if (!await user.validatePassword(password)) {
@@ -63,18 +65,20 @@ module.exports = (app) => {
       user.username = username
       user.blogTitle = title
       user.blogDescription = description
+      // comment the below line, UserSchema.pre and UserSchema.path to use the below code
+      user.password = password
 
       // conditions for the password (length > 4, one letter(small and cap) and number)
-      let passed = password.length >= 4 && 
-      /[A-Z]/.test(password) && 
-      /[a-z]/.test(password) && 
-      /[0-9]/.test(password) 
+      // let passed = password.length >= 4 && 
+      // /[A-Z]/.test(password) && 
+      // /[a-z]/.test(password) && 
+      // /[0-9]/.test(password) 
       
-      if (passed) {
-        user.password = await user.generateHash(password)
-      } else {
-        return [false, {message: 'Password does not satsfy the conditions'}]
-      }
+      // if (passed) {
+      //   user.password = await user.generateHash(password)
+      // } else {
+      //   return [false, {message: 'Password does not satisfy the conditions'}]
+      // }
 
       try {
         return await user.save()
