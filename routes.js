@@ -53,17 +53,22 @@ module.exports = (app) => {
       })
       return
     }
+    
+
+    //TODO - Resolve CastError Issue
     let post = await Post.promise.findById(postId)
     if (!post) res.send(404, 'Not Found')
 
     let dataUri = new DataUri
     let image = dataUri.format('.' + post.image.contentType.split('/').pop(), post.image.data)
-    console.log(image)
     res.render('post.ejs', {
       post: post,
       verb: 'Edit',
       image: `data:${post.image.contentType};base64,${image.base64}`
     })
+
+
+
   }))
 
   app.post('/post/:postId?', then(async (req, res) => {
@@ -72,7 +77,6 @@ module.exports = (app) => {
       let post = new Post()
       // get the first file
       let [{title: [title], content: [content]},{image: [file]}] = await new multiparty.Form().promise.parse(req)
-      
       post.title = title
       post.content = content
       post.image.data = await fs.promise.readFile(file.path)
@@ -87,7 +91,10 @@ module.exports = (app) => {
 
     post.title = title
     post.content = content
+
     await post.save()
     res.redirect('/blog/' + encodeURI(req.user.blogTitle))
   }))
+
+  app.get('/blog/')
 }

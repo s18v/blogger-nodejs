@@ -36,7 +36,6 @@ userSchema.pre('save', function (callback) {
       return callback()
     }
     this.password = await this.generateHash(this.password)
-    console.log('this password - ', this.password)
   }(), callback)
 })
 

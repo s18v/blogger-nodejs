@@ -65,20 +65,7 @@ module.exports = (app) => {
       user.username = username
       user.blogTitle = title
       user.blogDescription = description
-      // comment the below line, UserSchema.pre and UserSchema.path to use the below code
       user.password = password
-
-      // conditions for the password (length > 4, one letter(small and cap) and number)
-      // let passed = password.length >= 4 && 
-      // /[A-Z]/.test(password) && 
-      // /[a-z]/.test(password) && 
-      // /[0-9]/.test(password) 
-      
-      // if (passed) {
-      //   user.password = await user.generateHash(password)
-      // } else {
-      //   return [false, {message: 'Password does not satisfy the conditions'}]
-      // }
 
       try {
         return await user.save()
