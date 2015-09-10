@@ -13,8 +13,8 @@
 
     <div class="page-header text-center">
         <h1><span class="fa fa-user"></span> Profile Page</h1>
-        <a href="/logout" class="btn btn-default btn-sm">Logout</a>
-        <a href="/post" class="btn btn-default btn-sm">Create New Post</a>
+        <h3><a href="/post" class="label label-success">Create New Post</a><h3>
+        <h3><a href="/logout" class="label label-danger">Logout</a></h3>
     </div>
 
     <% if (typeof message !== 'undefined' && message.length > 0) { %>
@@ -22,11 +22,9 @@
     <% } %>
 
     <div class="row">
-
         <!-- LOCAL INFORMATION -->
         <div class="well">
             <h3><span class="fa fa-laptop"></span> Local</h3>
-
                 <p>
                     <strong>id</strong>: <%= user.id %><br>
                     <strong>username</strong>: <%= user.username %><br>
@@ -37,7 +35,22 @@
                 </p>
                 
         </div>
-
-</div>
+    <div class="page-header text-center">
+        <h1><span class="fa fa-pencil"></span> Blog Posts</h1>
+    </div>
+        <% processedArray.forEach(function(post) { %>
+        <div class="column">
+          <div class="col-sm-6 col-md-4">
+            <div class="thumbnail">
+              <img src="<%= post.image %>" alt="No Image" style="height: 200px; width: 300px">
+              <div class="caption">
+                <h3><%= post.title %></h3>
+                <p align="justify"><%= post.content %></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <% }); %>
+    </div>
 </body>
 </html>

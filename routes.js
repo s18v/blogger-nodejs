@@ -33,12 +33,29 @@ module.exports = (app) => {
     failureFlash: true
   }))
 
-  app.get('/profile', isLoggedIn, (req, res) => {
+  app.get('/profile', isLoggedIn, then(async (req, res) => {   
+    let user = await User.promise.findOne({blogTitle: req.user.blogTitle})
+    let rawArray = await Post.promise.find({})
+    let processedArray = [];
+    
+    // add title, content and formatted image data to a new array and send to blog.ejs
+    let count = 0;
+    for (let i = 0; i < rawArray.length; i++) {
+      let elem = rawArray[i]
+      let dataUri = new DataUri
+      let image = dataUri.format('.' + elem.image.contentType.split('/').pop(), elem.image.data)
+      processedArray.push({
+        "title": elem.title,
+        "content": elem.content,
+        "image": `data:${elem.image.contentType};base64,${image.base64}`
+      })
+    }
     res.render('profile.ejs', {
       user: req.user,
+      processedArray: processedArray,
       message: req.flash('error')
     })
-  })
+  }))
 
   app.get('/logout', (req, res) => {
     req.logout()
