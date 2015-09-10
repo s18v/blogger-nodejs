@@ -5,6 +5,7 @@ let Post = require('./models/post')
 let fs = require('fs')
 let User = require('./user')
 let DataUri = require('datauri')
+let Comment = require('./models/comment')
 
 module.exports = (app) => {
   let passport = app.passport
@@ -26,6 +27,7 @@ module.exports = (app) => {
     failureRedirect: '/login',
     failureFlash: true
   }))
+
   // process the signup form
   app.post('/signup', passport.authenticate('local-signup', {
     successRedirect: '/profile',
@@ -136,5 +138,16 @@ module.exports = (app) => {
     }
     
     res.redirect('/blog/' + encodeURI(req.user.blogTitle))
+  }))
+
+  app.post('/comment', then(async (req, res) => {
+    let comment = new Comment()
+    comment.content = req.body.comment;
+    
+    await comment.save()
+
+    res.redirect('/profile')
+     
+    return   
   }))
 }
