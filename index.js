@@ -9,6 +9,7 @@ let mongoose = require('mongoose')
 let passportMiddleware = require('./middleware/passport')
 let routes = require('./routes')
 // require('trycatch').configure({'long-stack-traces': true})
+
 require('songbird')
 
 // const NODE_ENV = process.env.NODE_ENV

@@ -49,7 +49,8 @@ module.exports = (app) => {
     if (!postId) {
       res.render('post.ejs', {
         post: {},
-        verb: 'Create'
+        verb: 'Create',
+        message: req.flash('error')
       })
       return
     }
@@ -61,10 +62,12 @@ module.exports = (app) => {
 
     let dataUri = new DataUri
     let image = dataUri.format('.' + post.image.contentType.split('/').pop(), post.image.data)
+    console.log(image)
     res.render('post.ejs', {
       post: post,
       verb: 'Edit',
-      image: `data:${post.image.contentType};base64,${image.base64}`
+      image: `data:${post.image.contentType};base64,${image.base64}`,
+      message: req.flash('error')
     })
 
 
@@ -77,15 +80,26 @@ module.exports = (app) => {
       let post = new Post()
       // get the first file
       let [{title: [title], content: [content]},{image: [file]}] = await new multiparty.Form().promise.parse(req)
+      
+      console.log('title & content - ', title, content)
       post.title = title
       post.content = content
       post.image.data = await fs.promise.readFile(file.path)
       post.image.contentType = file.headers['content-type']
 
-      await post.save()
+      // handle the empty fields case
+      try {
+        await post.save()  
+      } catch(e) {
+        req.flash('error', 'Post Something!')
+        res.redirect('/post')
+        return
+      }
+      
       res.redirect('/blog/' + encodeURI(req.user.blogTitle))
       return
     }
+    // find by the id if the blog post is there
     let post = await Post.promise.findById(postId)
     if (!post) res.send(404, 'Not Found')
 
@@ -96,5 +110,8 @@ module.exports = (app) => {
     res.redirect('/blog/' + encodeURI(req.user.blogTitle))
   }))
 
-  app.get('/blog/')
+  // TODO Implement this
+  app.get('/blog/', (req, res) => {
+    console.log('Implement blog.ejs')
+  })
 }
