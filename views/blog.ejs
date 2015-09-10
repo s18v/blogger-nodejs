@@ -11,18 +11,24 @@
 
 <body>
     <div class="container">
-        <div class="col-sm-6 col-sm-offset-3">
             <% if (typeof message !== 'undefined' && message.length > 0) { %>
                 <div class="alert alert-danger"><%= message %></div>
             <% } %>
-            <ul>
-                <% processedArray.forEach(function(post) { %>
-                    <li><%= post.title %> - <%= post.content %></li>
-                    <% if (post.image) { %>
-                        <img src="<%= post.image %>" style="height: 200px; width: 200px"/>
-                    <% } %>
-                <% }); %>
-            </ul>
-        </div>
+            <div class="jumbotron">
+                <h1>Blog Posts</h1>
+            </div>
+            <% processedArray.forEach(function(post) { %>
+            <div class="column">
+              <div class="col-sm-6 col-md-4">
+                <div class="thumbnail">
+                  <img src="<%= post.image %>" alt="No Image" style="height: 200px; width: 300px">
+                  <div class="caption">
+                    <h3><%= post.title %></h3>
+                    <p align="justify"><%= post.content %></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <% }); %>
     </div>
 </body>
