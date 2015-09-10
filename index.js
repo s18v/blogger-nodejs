@@ -51,6 +51,8 @@ app.use(flash())
 passportMiddleware(app)
 routes(app)
 
+app.use((err, req, res, next) => console.log(err.stack))
+
 // connect to database
 mongoose.connect('mongodb://127.0.0.1:27017/blogger')
 // start server
