@@ -1,12 +1,16 @@
-# Blogger
+## Blogger
 
-<p>This is a basic Blogger clone to create a blog with comments.</p>
+A Node.js blogging platform created using Express, Passport.js and Mongoose, including features like persistent local authentication, account creation, blog posts with unique urls and comments.
 
-<p>Time spent: <code>5</code></p>
+Time spent: `15`
 
-#<h4><a class="anchor" id="heading-required" href="#heading-required"><span class="glyphicon #glyphicon-link"></span></a>Completed</h4>
+### Features
+-  User can Signup, Login and Logout with input validation
+-  Session and user accounts are persisted in a data store
+-  User can create and edit a blog post
+-  User can view blog posts with details on their Profile
+-  User can view anyone's blog with posts at the specified url
+-  User can comments on their blog posts on their Profile
+-  Handle the empty create post case
 
-<ul>
-<li>User can Signup, Login and Logout with input validation</li>
-<li>Session and user accounts are persisted in a data store </li>
-</ul>
+<a href="https://github.com/sarankumarv/blogger-nodejs/blob/master/Blogger-Walkthrough.gif">Video Walkthrough</a>
